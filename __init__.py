@@ -1,7 +1,6 @@
 from os.path import join, dirname
 
 import radiosoma
-
 from ovos_utils import classproperty
 from ovos_utils.ocp import MediaType, PlaybackType
 from ovos_utils.parse import fuzzy_match
@@ -25,18 +24,12 @@ class SomaFMSkill(OVOSCommonPlaybackSkill):
         self.register_ocp_keyword(MediaType.RADIO,
                                   "radio_streaming_provider",
                                   ["SomaFM", "Soma FM", "Soma"])
+        # self.export_ocp_keywords_csv("somafm.csv")
 
     @classproperty
     def runtime_requirements(self):
         return RuntimeRequirements(internet_before_load=True,
-                                   network_before_load=True,
-                                   gui_before_load=False,
-                                   requires_internet=True,
-                                   requires_network=True,
-                                   requires_gui=False,
-                                   no_internet_fallback=False,
-                                   no_network_fallback=False,
-                                   no_gui_fallback=True)
+                                   requires_internet=True)
 
     @ocp_featured_media()
     def featured_media(self):
@@ -103,3 +96,9 @@ class SomaFMSkill(OVOSCommonPlaybackSkill):
                 "author": "SomaFM",
                 "length": 0
             }
+
+
+if __name__ == "__main__":
+    from ovos_utils.messagebus import FakeBus
+
+    s = SomaFMSkill(bus=FakeBus(), skill_id="t.fake")
